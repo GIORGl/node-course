@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="./css/styles.css">
+    <script src="./js/app.js"></script>
+</head>
+
+<body>
+    <div class="main_content">
+        {{>header}}
+        <p>use this site to get your wheather!</p>
+        <form id="form">
+            <input placeholder="seach the weather" type="text" name="" id="">
+            <button id="button" type="submit">Search</button>
+        </form>
+
+        <h1 id="forecast">forcsat</h1>
+        <h3 id="error">error</h3>
+    </div>
+    <footer>
+        {{>footer}}
+    </footer>
+
+
+</body>
+<script>
+    window.onload = function () {
+
+        const message = document.querySelector('#forecast');
+        const errormsg = document.querySelector('#error')
+
+        const weatherForm = document.getElementById('form');
+
+        const search = document.querySelector('input');
+        weatherForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            console.log('form submited')
+            const location = search.value;
+            console.log(location)
+
+            fetch(`http://localhost:3000/weather?address=${location}`).then((response) => {
+                response.json().then((data) => {
+                    if (data.error) {
+                        message.textContent = data.error;
+                    } else {
+                        message.textContent = data.location + data.forecast;
+
+                    }
+                });
+            });
+
+        })
+
+
+
+
+    }
+
+
+</script>
+
+</html>
